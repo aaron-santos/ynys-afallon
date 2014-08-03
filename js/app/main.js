@@ -1,6 +1,18 @@
 var players = [];
 var selectedGoodRoles = [];
 var selectedEvilRoles = [];
+// Role definitions
+// id - to identify each role
+// name - the name printed to the screen
+// imgUrl - the image to show when revealing the role
+// detailFn - a function to create the detail text when revealing the role
+//            @param _ - reference to the underscore lib for useful functions.
+//            @param playerRoles - a list of players and their roles. Each
+//            element is a list, the first item is a string (the player name),
+//            the second item is an object (the player's role).
+//            @param selfRole the element in playerRoles that corresponds to the revealing player.
+//            The first item is the reveling player's name and the second item is the revealing player's
+//            role.
 var merlin = {
     id: 'Merlin',
     name: 'Merlin',
@@ -181,8 +193,8 @@ function main($, _) {
       storePlayerList();
     });
 
-    // Populate analyze page
-    $('#random-roles-button').on('click', function(event) {
+    // When done configuring players, check if there are enough players before continuing. 
+    $('#config-next-button').on('click', function(event) {
         var names = jQuery.map($('#names-list').children(), function(li) {
             return $('a > h3', li).text();
         });
@@ -191,7 +203,10 @@ function main($, _) {
         if (names.length < 5) {
             event.preventDefault();
         }
+    });
 
+    // Random roles button assigns roles.
+    $('#random-roles-button').on('click', function(event) {
         assignRoles();
     });
 
@@ -202,6 +217,7 @@ function main($, _) {
       console.log('assigning with names=' + names);
       selectedGoodRoles = [];
       selectedEvilRoles = [];
+      // Add selected roles based on role config
       if ($("#config-roles-page > div.ui-content input[name='merlin']").is(':checked')) {
           selectedGoodRoles.push(merlin);
       }
