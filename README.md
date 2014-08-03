@@ -1,5 +1,5 @@
 ynys-afallon
 ============
 
-It's a webpage. Load index.html in your browser to run.
+It's a webpage. Clone and then load index.html in your browser to run.
 
