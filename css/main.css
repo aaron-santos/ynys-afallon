@@ -1,0 +1,43 @@
+#add > div {
+  float: left;
+  width: 80%;
+  margin-right: 14px;
+}
+
+#analyze-tbody td {
+  padding: 0.5em;
+  padding-left: 5%;
+}
+
+.overlay {
+    z-index:100;
+    position:absolute;    
+    color:white;
+    font-size:5em;
+    font-weight:bold;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.7);
+    margin: 10px; 
+}
+
+#show-roles-img {
+    width: 100%;
+}
+
+#show-roles-image {    
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+#show-roles-player-name {
+    font-size:3em;
+    width: 100%;
+    top:70px;
+}
+
+#show-roles-role-name {
+    font-size:2em;
+    width:100%;
+    top:400px;
+}

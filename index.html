@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Single page template</title> 
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.2/jquery.mobile.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <script data-main="js/app" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js"></script>
+
+    <style>
+      #add > div {
+        float: left;
+        width: 80%;
+        margin-right: 14px;
+      }
+      #analyze-tbody td {
+        padding: 0.5em;
+        padding-left: 5%;
+      }
+    </style>
+</head> 
+
+<body> 
+
+  <div data-role="page" id="config-page">
+    <div data-role="header">
+        <h1>Config Players</h1>
+    </div>
+    <div data-role="content" class="ui-content">    
+        <ul id="names-list" data-role="listview" data-split-icon="minus" data-split-theme="a">
+        </ul>
+        <div class="ui-listview" data-role="listview" id="add" style="padding: 20px">
+            <input type="text" name="name" id="add-name" value="" data-inline="true" style="float:left">
+            <a href="#" id="add-name-button" data-role="button" data-icon="plus" data-iconpos="notext" data-inline="true">+</a>
+        </div>
+    </div>
+    <div data-role="footer">
+        <a href="#config-roles-page" id="config-next-button" data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">Next</a>
+    </div>
+  </div>
+
+  <div data-role="page" id="config-roles-page">
+    <div data-role="header">
+        <h1>Config Roles</h1>
+    </div>
+    <div data-role="content" class="ui-content">    
+        <a href="#show-roles-page" id="random-roles-button" data-transition="slide" data-role="button" data-icon="carat-r" data-iconpos="right">Random</a>
+    </div>
+    <div data-role="footer">
+        <a href="#config-page" data-transition="slide" data-direction="reverse" data-role="button" data-icon="carat-l" data-inline="true" data-iconpos="left" style="float:left">Back</a>
+    </div>
+  </div>
+
+  <div data-role="page" id="show-roles-page">
+    <div data-role="header">
+        <h1></h1>
+    </div>
+    <div data-role="content" class="ui-content">    
+        <img id="show-roles-img" src="" />
+        <p id="show-roles-player-name" class="overlay"></p>
+        <p id="show-roles-role-name" class="overlay"></p>
+        <p id="show-roles-detail" class="overlay"></p>
+    </div>
+    <div data-role="footer">
+        <a href="#show-roles-page" id="show-roles-reveal-button" data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">Reveal Role</a>
+        <a href="#show-roles-page" id="show-roles-ready-button" data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">Ready</a>
+    </div>
+  </div>
+
+  <div data-role="page" id="starting-player-page">
+    <div data-role="header">
+        <h1>Starting Player</h1>
+    </div>
+    <div data-role="content" class="ui-content">    
+        <p id="starting-player-name"></p>
+    </div>
+    <div data-role="footer">
+        <a href="#config-page"  data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">Done</a>
+    </div>
+  </div>
+</body>
+</html>
