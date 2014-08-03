@@ -46,6 +46,7 @@ var goodKnight = {
     detailFn: function(_, playerRoles){return '';}};
 
 var assassin = {
+    id: 'Assassin',
     name: 'Assassin',
     imgUrl: 'images/assassin.png',
     detailFn: function(_, playerRoles, selfRole){
@@ -207,10 +208,13 @@ function main($, _) {
 
     // Random roles button assigns roles.
     $('#random-roles-button').on('click', function(event) {
-        assignRoles();
+        assignRoles(true);
+    });
+    $('#nonex-random-roles-button').on('click', function(event) {
+        assignRoles(false);
     });
 
-    function assignRoles() {
+    function assignRoles(exclusionaryRoles) {
       var initialSet;
       var names = players;
 
@@ -270,14 +274,22 @@ function main($, _) {
           if (isBad) {
               // possibly replace true with an exclusive bad-guy role
               if (remainingEvilRoles.length > 0 && _.random(0, 2) === 0) {
-                  return remainingEvilRoles.pop();
+                  if (exclusionaryRoles) {
+                      return remainingEvilRoles.pop();
+                  } else {
+                      return _.sample(remainingEvilRoles);
+                  }
               } else {
                   return minion;
               }
           } else {
               // possibly replace false with an exclusive good-guy role
               if (remainingGoodRoles.length > 0 && _.random(0, 2) === 0) {
-                  return remainingGoodRoles.pop();
+                  if (exclusionaryRoles) {
+                      return remainingGoodRoles.pop();
+                  } else {
+                      return _.sample(remainingGoodRoles);
+                  }
               } else {
                   return goodKnight;
               }
