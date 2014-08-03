@@ -1,4 +1,107 @@
 var players = [];
+var selectedGoodRoles = [];
+var selectedEvilRoles = [];
+var merlin = {
+    id: 'Merlin',
+    name: 'Merlin',
+    imgUrl: 'images/merlin.png',
+    detailFn: function(_, playerRoles){
+        var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
+            return _.contains(['Minion', 'Assassin', 'Oberon', 'Morgana'], playerRole[1].id);
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Minions: ' + evilNames.join(', ');
+    }};
+
+var percival = {
+    id: 'Percival',
+    name: 'Percival',
+    imgUrl: 'images/percival.png',
+    detailFn: function(_, playerRoles){
+        var merlinNames = _.map(_.filter(playerRoles, function(playerRole) {
+            return _.contains(['Merlin', 'Morgana'], playerRole[1].id);
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Merlins: ' + merlinNames.join(', ');
+    }};
+
+var goodKnight = {
+    id: 'GoodKnight',
+    name: 'Loyal Servant',
+    imgUrl: 'images/goodknight.png',
+    detailFn: function(_, playerRoles){return '';}};
+
+var assassin = {
+    name: 'Assassin',
+    imgUrl: 'images/assassin.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.reject(playerRoles, function(playerRole) {
+            return _.contains(['Oberon', 'Merlin', 'GoodKnight', 'Percival'], playerRole[1].id)
+             || playerRole[0] === selfRole[0];
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ');
+    }};
+
+var mordred = {
+    id: 'Mordred',
+    name: 'Mordred',
+    imgUrl: 'images/mordred.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.reject(playerRoles, function(playerRole) {
+            return _.contains(['Oberon', 'Merlin', 'GoodKnight', 'Percival'], playerRole[1].id)
+             || playerRole[0] === selfRole[0];
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ');
+    }};
+
+var morgana = {
+    id: 'Morgana',
+    name: 'Morgana',
+    imgUrl: 'images/morgana.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.reject(playerRoles, function(playerRole) {
+            return _.contains(['Oberon', 'Merlin', 'GoodKnight', 'Percival'], playerRole[1].id)
+             || playerRole[0] === selfRole[0];
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ');
+    }};
+
+var oberon = {
+    id: 'Oberon',
+    name: 'Oberon',
+    imgUrl: 'images/oberon.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.reject(playerRoles, function(playerRole) {
+            return _.contains(['Merlin', 'GoodKnight', 'Percival'], playerRole[1].id)
+             || playerRole[0] === selfRole[0];
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ');
+    }};
+
+var minion = {
+    id: 'Minion', 
+    name: 'Minon of Mordred',
+    imgUrl: 'images/minion.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.reject(playerRoles, function(playerRole) {
+            return _.contains(['Oberon', 'Merlin', 'GoodKnight', 'Percival'], playerRole[1].id)
+             || playerRole[0] === selfRole[0];
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ');
+    }};
+
 var playerRoles = {};
 
 function main($, _) {
@@ -90,7 +193,6 @@ function main($, _) {
         }
 
         assignRoles();
-        //configShowRolesPage();
     });
 
     function assignRoles() {
@@ -98,26 +200,29 @@ function main($, _) {
       var names = players;
 
       console.log('assigning with names=' + names);
-      var remainingGoodRoles = _.shuffle([
-        {name: 'Merlin',
-         imgUrl: 'images/merlin.png'},
-        {name: 'Percival',
-         imgUrl: 'images/percival.png'}]);
-      var goodKnight = {
-         name: 'Loyal Servant',
-         imgUrl: 'images/goodknight.png'};
-      var remainingEvilRoles = _.shuffle([
-        {name: 'Assassin',
-         imgUrl: 'images/assassin.png'},
-        {name: 'Mordred',
-         imgUrl: 'images/mordred.png'},
-        {name: 'Morgana',
-         imgUrl: 'images/morgana.png'},
-        {name: 'Oberon',
-         imgUrl: 'images/oberon.png'}]);
-      var minion = {
-         name: 'Minon of Mordred',
-         imgUrl: 'images/minion.png'};
+      selectedGoodRoles = [];
+      selectedEvilRoles = [];
+      if ($("#config-roles-page > div.ui-content input[name='merlin']").is(':checked')) {
+          selectedGoodRoles.push(merlin);
+      }
+      if ($("#config-roles-page > div.ui-content input[name='percival']").is(':checked')) {
+          selectedGoodRoles.push(percival);
+      }
+      if ($("#config-roles-page > div.ui-content input[name='assassin']").is(':checked')) {
+          selectedEvilRoles.push(assassin);
+      }
+      if ($("#config-roles-page > div.ui-content input[name='mordred']").is(':checked')) {
+          selectedEvilRoles.push(mordred);
+      }
+      if ($("#config-roles-page > div.ui-content input[name='morgana']").is(':checked')) {
+          selectedEvilRoles.push(morgana);
+      }
+      if ($("#config-roles-page > div.ui-content input[name='oberon']").is(':checked')) {
+          selectedEvilRoles.push(oberon);
+      }
+      
+      var remainingGoodRoles = _.shuffle(selectedGoodRoles);
+      var remainingEvilRoles = _.shuffle(selectedEvilRoles);
        
       // initial set: true = evil, false = good
       switch (names.length) {
@@ -148,14 +253,14 @@ function main($, _) {
       var roles = _.shuffle(_.map(initialSet, function(isBad) {
           if (isBad) {
               // possibly replace true with an exclusive bad-guy role
-              if (remainingEvilRoles.length > 0 && _.random(0, 1) === 1) {
+              if (remainingEvilRoles.length > 0 && _.random(0, 2) === 0) {
                   return remainingEvilRoles.pop();
               } else {
                   return minion;
               }
           } else {
               // possibly replace false with an exclusive good-guy role
-              if (remainingGoodRoles.length > 0 && _.random(0, 1) === 1) {
+              if (remainingGoodRoles.length > 0 && _.random(0, 2) === 0) {
                   return remainingGoodRoles.pop();
               } else {
                   return goodKnight;
@@ -166,7 +271,7 @@ function main($, _) {
       // key = player name, value = role object
       playerRoles = _.zip(players, roles);
       console.log('assigning player roles:' + JSON.stringify(playerRoles));
-      //
+
       // setup the show-roles-page with the first player
       setupShowRolesPage(0);
     }
@@ -175,11 +280,13 @@ function main($, _) {
       $('#show-roles-img').attr('src', 'images/blank.png');
       $('#show-roles-player-name').text(playerRoles[playerIndex][0]);
       $('#show-roles-role-name').hide();
+      $('#show-roles-detail').hide();
       $('#show-roles-ready-button').hide();
       $('#show-roles-reveal-button').show().off().on('click', function() {
           $('#show-roles-reveal-button').hide();
           $('#show-roles-img').attr('src', playerRoles[playerIndex][1].imgUrl);
           $('#show-roles-role-name').show().text(playerRoles[playerIndex][1].name);
+          $('#show-roles-detail').show().text(playerRoles[playerIndex][1].detailFn(_, playerRoles, playerRoles[playerIndex]));
           setTimeout(function() {
               $('#show-roles-ready-button').show().off().on('click', function(event) {
                   if (playerIndex + 1 >= players.length) {
