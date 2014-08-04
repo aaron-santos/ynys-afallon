@@ -14,7 +14,7 @@ var selectedEvilRoles = [];
 //            The first item is the reveling player's name and the second item is the revealing player's
 //            role.
 function isGood(_, role) {
-    return _.contains(['Merlin', 'GoodKnight', 'Percival', 'Galahad', 'Puck', 'Tanner', 'RedKnight'], role.id);
+    return _.contains(['Merlin', 'GoodKnight', 'Percival', 'Galahad', 'Puck', 'Tanner', 'TannerMerlin', 'TannerPercival', 'RedKnight'], role.id);
 }
 
 function isEvil(_, role) {
@@ -67,8 +67,17 @@ var puck = {
     }
 };
 
-var tanner = {
+var tanner= {
     id: 'Tanner',
+    name: 'Tanner',
+    imgUrl: 'images/tanner.png',
+    detailFn: function(_, playerRoles){
+        return '';
+    }
+};
+
+var tannerMerlin = {
+    id: 'TannerMerlin',
     name: 'Tanner',
     imgUrl: 'images/tanner.png',
     detailFn: function(_, playerRoles){
@@ -78,6 +87,20 @@ var tanner = {
             return playerRole[0];
         });
         return 'Minions: ' + evilNames.join(', ');
+    }
+};
+
+var tannerPercival = {
+    id: 'TannerPercival',
+    name: 'Tanner',
+    imgUrl: 'images/tanner.png',
+    detailFn: function(_, playerRoles){
+        var merlinNames = _.map(_.filter(playerRoles, function(playerRole) {
+            return 'Merlin' === playerRole[1].id;
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Merlins: ' + merlinNames.join(', ');
     }
 };
 
@@ -296,6 +319,12 @@ function main($, _) {
         }
         if ($("#config-roles-page > div.ui-content input[name='tanner']").is(':checked')) {
             selectedGoodRoles.push(tanner);
+        }
+        if ($("#config-roles-page > div.ui-content input[name='tannermerlin']").is(':checked')) {
+            selectedGoodRoles.push(tannerMerlin);
+        }
+        if ($("#config-roles-page > div.ui-content input[name='tannerpercival']").is(':checked')) {
+            selectedGoodRoles.push(tannerPercival);
         }
         if ($("#config-roles-page > div.ui-content input[name='assassin']").is(':checked')) {
             selectedEvilRoles.push(assassin);
