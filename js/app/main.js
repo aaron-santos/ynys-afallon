@@ -403,6 +403,14 @@ function main($, _) {
         $('body').pagecontainer('change', '#starting-player-page');
         $('#starting-player-name').text(_.shuffle(players)[0]);
     }
+
+    $('#end-of-game-button').on('click', function() {
+        $stats = $('#end-of-game-stats').empty();
+        _.each(playerRoles, function(playerRole) {
+            $stats.append($('<li>')
+                .text(playerRole[0] + ': ' + playerRole[1].name));
+        });
+    });
 }
 
 define(["jquery", "underscore", "jquery-mobile", "jquery-ui", "jquery-ui-touch-punch"], function($, _) {

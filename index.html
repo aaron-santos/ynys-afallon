@@ -79,7 +79,19 @@
         <p id="starting-player-name"></p>
     </div>
     <div data-role="footer">
-        <a href="#config-page"  data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">Done</a>
+        <a href="#end-of-game-page" id="end-of-game-button" data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">End Game</a>
+    </div>
+  </div>
+
+  <div data-role="page" id="end-of-game-page">
+    <div data-role="header">
+        <h1>Roles</h1>
+    </div>
+    <div data-role="content" class="ui-content">    
+        <ul id="end-of-game-stats"></ul>
+    </div>
+    <div data-role="footer">
+        <a href="#config-page"  data-transition="slide" data-role="button" data-icon="carat-r" data-inline="true" data-iconpos="right" style="float:right">New Game</a>
     </div>
   </div>
 </body>
