@@ -21,6 +21,10 @@ function isEvil(_, role) {
     return !isGood(_, role);
 }
 
+function isCursed(_, role) {
+    return role.cursed === true;
+}
+
 var merlin = {
     id: 'Merlin',
     name: 'Merlin',
@@ -126,7 +130,7 @@ var assassin = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
@@ -141,7 +145,7 @@ var mordred = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
@@ -156,7 +160,7 @@ var morgana = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
@@ -171,7 +175,7 @@ var oberon = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
@@ -186,7 +190,7 @@ var dave = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
@@ -201,12 +205,30 @@ var balan = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
         return 'Fellow Minions: ' + evilNames.join(', ') + '<br />'
-            +'Roles: ' + _.shuffle(_.map(playerRoles, function(playerRole){return playerRole[1].name;})).join(', ');
+            +'Roles: '
+            + _.chain(playerRoles)
+               .shuffle()
+               .sortBy(function(playerRole) {
+                   return isGood(_, playerRole[1]);
+               })
+               .map(function(playerRole){
+                    if (isGood(_, playerRole[1])) {
+                        return '<span class="goodRoleHighlight">'
+                        + playerRole[1].name
+                        +'</span>';
+                    } else {
+                        return '<span class="evilRoleHighlight">'
+                        + playerRole[1].name
+                        +'</span>';
+                    }
+               })
+               .value()
+               .join(', ');
     }
 };
 
@@ -217,7 +239,7 @@ var minion = {
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
-                || playerRole[1].id === 'Galahad';
+                || isCursed(_, playerRole[1]);
         }), function(playerRole) {
             return playerRole[0];
         });
@@ -339,9 +361,6 @@ function main($, _) {
         if ($("#config-roles-page > div.ui-content input[name='percival']").is(':checked')) {
             selectedGoodRoles.push(percival);
         }
-        if ($("#config-roles-page > div.ui-content input[name='galahad']").is(':checked')) {
-            selectedGoodRoles.push(galahad);
-        }
         if ($("#config-roles-page > div.ui-content input[name='redknight']").is(':checked')) {
             selectedGoodRoles.push(redKnight);
         }
@@ -406,7 +425,7 @@ function main($, _) {
 
         var randomMax = $('#special-roles-slider').val();
         // turn the initial set into the roles for the game
-        var roles = _.shuffle(_.map(initialSet, function(isBad) {
+        var roles = _.map(initialSet, function(isBad) {
             if (isBad) {
                 // possibly replace true with an exclusive bad-guy role
                 if (remainingEvilRoles.length > 0 && _.random(0, randomMax) > 0) {
@@ -430,10 +449,23 @@ function main($, _) {
                     return goodKnight;
                 }
             }
-        }));
+        });
+
+        if ($("#config-roles-page > div.ui-content input[name='cursed']").is(':checked')) {
+            var doneCurse = false;
+            _.each(roles, function(role) {
+                if (isGood(_, role) && doneCurse === false) {
+                    role.cursed = true;
+                    doneCurse = true;
+                } else {
+                    // I guess we can say that evil roles are always not cursed.
+                    role.cursed = false;
+                }
+            });
+        }
 
         // key = player name, value = role object
-        playerRoles = _.zip(players, roles);
+        playerRoles = _.zip(players, _.shuffle(roles));
         console.log('assigning player roles:' + JSON.stringify(playerRoles));
 
         // setup the show-roles-page with the first player
@@ -449,7 +481,11 @@ function main($, _) {
         $('#show-roles-reveal-button').show().off().on('click', function() {
             $('#show-roles-reveal-button').hide();
             $('#show-roles-img').attr('src', playerRoles[playerIndex][1].imgUrl);
-            $('#show-roles-role-name').show().text(playerRoles[playerIndex][1].name);
+            $('#show-roles-role-name').show().html(
+                (isCursed(_, playerRoles[playerIndex][1])
+                    ? '<span class="evilRoleHighlight">Cursed</span> '
+                    : '') 
+                + playerRoles[playerIndex][1].name);
             $('#show-roles-detail').show().html(playerRoles[playerIndex][1].detailFn(_, playerRoles, playerRoles[playerIndex]));
             setTimeout(function() {
                 $('#show-roles-ready-button').show().off().on('click', function(event) {
@@ -461,7 +497,7 @@ function main($, _) {
                         setupShowRolesPage(playerIndex + 1);
                     }
                 });
-            }, 1000);
+            }, 3000);
         });
     }
 
@@ -474,7 +510,12 @@ function main($, _) {
         $stats = $('#end-of-game-stats').empty();
         _.each(playerRoles, function(playerRole) {
             $stats.append($('<li>')
-                .text(playerRole[0] + ': ' + playerRole[1].name));
+                .text(playerRole[0]
+                    + ': '
+                    + (isCursed(_, playerRole[1])
+                        ? 'Cursed '
+                        : '')
+                    + playerRole[1].name));
         });
     });
 }
