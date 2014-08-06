@@ -24,7 +24,7 @@ function isEvil(_, role) {
 var merlin = {
     id: 'Merlin',
     name: 'Merlin',
-    imgUrl: 'images/merlin.png',
+    imgUrl: 'images-1/merlin.png',
     detailFn: function(_, playerRoles){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return (isEvil(_, playerRole[1]) && playerRole[1].id !== 'Mordred') || playerRole[1].id === 'RedKnight';
@@ -38,7 +38,7 @@ var merlin = {
 var percival = {
     id: 'Percival',
     name: 'Percival',
-    imgUrl: 'images/percival.png',
+    imgUrl: 'images-1/percival.png',
     detailFn: function(_, playerRoles){
         var merlinNames = _.map(_.filter(playerRoles, function(playerRole) {
             return _.contains(['Merlin', 'Morgana'], playerRole[1].id);
@@ -52,7 +52,7 @@ var percival = {
 var galahad = {
     id: 'Galahad',
     name: 'Galahad',
-    imgUrl: 'images/galahad.png',
+    imgUrl: 'images-1/galahad.png',
     detailFn: function(_, playerRoles){
         return '';
     }
@@ -61,7 +61,7 @@ var galahad = {
 var puck = {
     id: 'Puck',
     name: 'Puck',
-    imgUrl: 'images/puck.png',
+    imgUrl: 'images-1/puck.png',
     detailFn: function(_, playerRoles){
         return '';
     }
@@ -70,7 +70,7 @@ var puck = {
 var tanner= {
     id: 'Tanner',
     name: 'Tanner',
-    imgUrl: 'images/tanner.png',
+    imgUrl: 'images-1/tanner.png',
     detailFn: function(_, playerRoles){
         return '';
     }
@@ -79,7 +79,7 @@ var tanner= {
 var tannerMerlin = {
     id: 'TannerMerlin',
     name: 'Tanner',
-    imgUrl: 'images/tanner.png',
+    imgUrl: 'images-1/tanner.png',
     detailFn: function(_, playerRoles){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Mordred';
@@ -93,7 +93,7 @@ var tannerMerlin = {
 var tannerPercival = {
     id: 'TannerPercival',
     name: 'Tanner',
-    imgUrl: 'images/tanner.png',
+    imgUrl: 'images-1/tanner.png',
     detailFn: function(_, playerRoles){
         var merlinNames = _.map(_.filter(playerRoles, function(playerRole) {
             return 'Merlin' === playerRole[1].id;
@@ -107,23 +107,22 @@ var tannerPercival = {
 var redKnight = {
     id: 'RedKnight',
     name: 'Red Knight',
-    imgUrl: 'images/redknight.png',
+    imgUrl: 'images-1/redknight.png',
     detailFn: function(_, playerRoles){
         return '';
     }
 };
 
-
 var goodKnight = {
     id: 'GoodKnight',
     name: 'Loyal Servant',
-    imgUrl: 'images/goodknight.png',
+    imgUrl: 'images-1/goodknight.png',
     detailFn: function(_, playerRoles){return '';}};
 
 var assassin = {
     id: 'Assassin',
     name: 'Assassin',
-    imgUrl: 'images/assassin.png',
+    imgUrl: 'images-1/assassin.png',
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
@@ -138,7 +137,7 @@ var assassin = {
 var mordred = {
     id: 'Mordred',
     name: 'Mordred',
-    imgUrl: 'images/mordred.png',
+    imgUrl: 'images-1/mordred.png',
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
@@ -153,7 +152,7 @@ var mordred = {
 var morgana = {
     id: 'Morgana',
     name: 'Morgana',
-    imgUrl: 'images/morgana.png',
+    imgUrl: 'images-1/morgana.png',
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
@@ -168,7 +167,7 @@ var morgana = {
 var oberon = {
     id: 'Oberon',
     name: 'Oberon',
-    imgUrl: 'images/oberon.png',
+    imgUrl: 'images-1/oberon.png',
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
@@ -180,10 +179,41 @@ var oberon = {
     }
 };
 
+var dave = {
+    id: 'Dave', 
+    name: 'Dave',
+    imgUrl: 'images-1/dave.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
+            return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
+                || playerRole[1].id === 'Galahad';
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ');
+    }
+};
+
+var balan = {
+    id: 'Balan', 
+    name: 'Balan',
+    imgUrl: 'images-1/balan.png',
+    detailFn: function(_, playerRoles, selfRole){
+        var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
+            return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
+                || playerRole[1].id === 'Galahad';
+        }), function(playerRole) {
+            return playerRole[0];
+        });
+        return 'Fellow Minions: ' + evilNames.join(', ') + '<br />'
+            +'Roles: ' + _.shuffle(_.map(playerRoles, function(playerRole){return playerRole[1].name;})).join(', ');
+    }
+};
+
 var minion = {
     id: 'Minion', 
     name: 'Minon of Mordred',
-    imgUrl: 'images/minion.png',
+    imgUrl: 'images-1/minion.png',
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
             return isEvil(_, playerRole[1]) && playerRole[1].id !== 'Oberon' && playerRole[0] !== selfRole[0]
@@ -204,6 +234,7 @@ function main($, _) {
     $namesList.disableSelection();
     $namesList.bind('sortstop', function(event, ui) {
         $namesList.listview('refresh');
+        storePlayerList();
     });
     $('#add').listview();
 
@@ -338,6 +369,12 @@ function main($, _) {
         if ($("#config-roles-page > div.ui-content input[name='oberon']").is(':checked')) {
             selectedEvilRoles.push(oberon);
         }
+        if ($("#config-roles-page > div.ui-content input[name='dave']").is(':checked')) {
+            selectedEvilRoles.push(dave);
+        }
+        if ($("#config-roles-page > div.ui-content input[name='balan']").is(':checked')) {
+            selectedEvilRoles.push(balan);
+        }
         
         var remainingGoodRoles = _.shuffle(selectedGoodRoles);
         var remainingEvilRoles = _.shuffle(selectedEvilRoles);
@@ -413,7 +450,7 @@ function main($, _) {
             $('#show-roles-reveal-button').hide();
             $('#show-roles-img').attr('src', playerRoles[playerIndex][1].imgUrl);
             $('#show-roles-role-name').show().text(playerRoles[playerIndex][1].name);
-            $('#show-roles-detail').show().text(playerRoles[playerIndex][1].detailFn(_, playerRoles, playerRoles[playerIndex]));
+            $('#show-roles-detail').show().html(playerRoles[playerIndex][1].detailFn(_, playerRoles, playerRoles[playerIndex]));
             setTimeout(function() {
                 $('#show-roles-ready-button').show().off().on('click', function(event) {
                     if (playerIndex + 1 >= players.length) {
