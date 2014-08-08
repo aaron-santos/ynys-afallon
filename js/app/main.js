@@ -123,7 +123,7 @@ var blanchefleur = {
     imgUrl: 'images-1/blanchefleur.png',
     detailFn: function(_, playerRoles){
         var goodName = _.chain(playerRoles)
-        .filter(function(playerRole) {
+        .filter(function(playerRole, selfRole) {
             return isGood(_, playerRole[1]) && playerRole[0] !== selfRole[0];
         })
         .map(function(playerRole) {
@@ -141,7 +141,7 @@ var blanchefleur = {
         })
         .sample()
         .value();
-        return 'Adversaries: ' + _.shuffle(goodName, badName).join(', ');
+        return 'Adversaries: ' + _.shuffle([goodName, evilName]).join(', ');
     }
 };
 
