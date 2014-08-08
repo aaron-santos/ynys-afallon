@@ -14,7 +14,7 @@ var selectedEvilRoles = [];
 //            The first item is the reveling player's name and the second item is the revealing player's
 //            role.
 function isGood(_, role) {
-    return _.contains(['Merlin', 'GoodKnight', 'Percival', 'Galahad', 'Puck', 'Tanner', 'TannerMerlin', 'TannerPercival', 'RedKnight'], role.id);
+    return _.contains(['Merlin', 'GoodKnight', 'Percival', 'Galahad', 'Puck', 'Tanner', 'TannerMerlin', 'TannerPercival', 'RedKnight', 'Blanchefleur'], role.id);
 }
 
 function isEvil(_, role) {
@@ -114,6 +114,34 @@ var redKnight = {
     imgUrl: 'images-1/redknight.png',
     detailFn: function(_, playerRoles){
         return '';
+    }
+};
+
+var blanchefleur = {
+    id: 'Blanchefleur',
+    name: 'Blanchefleur',
+    imgUrl: 'images-1/blanchefleur.png',
+    detailFn: function(_, playerRoles){
+        var goodName = _.chain(playerRoles)
+        .filter(function(playerRole) {
+            return isGood(_, playerRole[1]) && playerRole[0] !== selfRole[0];
+        })
+        .map(function(playerRole) {
+            return playerRole[0];
+        })
+        .sample()
+        .value();
+
+        var evilName = _.chain(playerRoles)
+        .filter(function(playerRole) {
+            return isEvil(_, playerRole[1]);
+        })
+        .map(function(playerRole) {
+            return playerRole[0];
+        })
+        .sample()
+        .value();
+        return 'Adversaries: ' + _.shuffle(goodName, badName).join(', ');
     }
 };
 
@@ -361,6 +389,9 @@ function main($, _) {
         if ($("#config-roles-page > div.ui-content input[name='percival']").is(':checked')) {
             selectedGoodRoles.push(percival);
         }
+        if ($("#config-roles-page > div.ui-content input[name='blanchefleur']").is(':checked')) {
+            selectedGoodRoles.push(blanchefleur);
+        }
         if ($("#config-roles-page > div.ui-content input[name='redknight']").is(':checked')) {
             selectedGoodRoles.push(redKnight);
         }
@@ -430,9 +461,9 @@ function main($, _) {
                 // possibly replace true with an exclusive bad-guy role
                 if (remainingEvilRoles.length > 0 && _.random(0, randomMax) > 0) {
                     if (exclusionaryRoles) {
-                        return remainingEvilRoles.pop();
+                        return _.clone(remainingEvilRoles.pop());
                     } else {
-                        return _.sample(remainingEvilRoles);
+                        return _.clone(_.sample(remainingEvilRoles));
                     }
                 } else {
                     return minion;
@@ -441,9 +472,9 @@ function main($, _) {
                 // possibly replace false with an exclusive good-guy role
                 if (remainingGoodRoles.length > 0 && _.random(0, randomMax) > 0) {
                     if (exclusionaryRoles) {
-                        return remainingGoodRoles.pop();
+                        return _.clone(remainingGoodRoles.pop());
                     } else {
-                        return _.sample(remainingGoodRoles);
+                        return _.clone(_.sample(remainingGoodRoles));
                     }
                 } else {
                     return goodKnight;
