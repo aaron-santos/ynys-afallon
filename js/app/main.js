@@ -121,7 +121,7 @@ var blanchefleur = {
     id: 'Blanchefleur',
     name: 'Blanchefleur',
     imgUrl: 'images-1/blanchefleur.png',
-    detailFn: function(_, playerRoles){
+    detailFn: function(_, playerRoles, selfRole){
         var goodName = _.chain(playerRoles)
         .filter(function(playerRole, selfRole) {
             return isGood(_, playerRole[1]) && playerRole[0] !== selfRole[0];
