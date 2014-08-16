@@ -122,8 +122,9 @@ var blanchefleur = {
     name: 'Blanchefleur',
     imgUrl: 'images-1/blanchefleur.png',
     detailFn: function(_, playerRoles, selfRole){
+        console.log('blanchfleur selfRole: ' + JSON.stringify(selfRole));
         var goodName = _.chain(playerRoles)
-        .filter(function(playerRole, selfRole) {
+        .filter(function(playerRole) {
             return isGood(_, playerRole[1]) && playerRole[0] !== selfRole[0];
         })
         .map(function(playerRole) {
@@ -504,7 +505,7 @@ function main($, _) {
     }
 
     function setupShowRolesPage(playerIndex) {
-        $('#show-roles-img').attr('src', 'images/blank.png');
+        $('#show-roles-img').attr('src', 'images-1/blank.png');
         $('#show-roles-player-name').text(playerRoles[playerIndex][0]);
         $('#show-roles-role-name').hide();
         $('#show-roles-detail').hide();
