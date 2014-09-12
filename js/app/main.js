@@ -290,6 +290,7 @@ function main($, _) {
     });
     $('#config-roles-page').on('pagebeforecreate', function() {
         $('#add').listview();
+        $('#special-roles-slider').slider();
     });
 
     // Trigger add name button click on keyboard return in the add name input box.
