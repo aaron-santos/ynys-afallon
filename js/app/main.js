@@ -1,4 +1,5 @@
 var players = [];
+var roles = []
 var selectedGoodRoles = [];
 var selectedEvilRoles = [];
 // Role definitions
@@ -287,7 +288,9 @@ function main($, _) {
         $namesList.listview('refresh');
         storePlayerList();
     });
-    $('#add').listview();
+    $('#config-roles-page').on('pagebeforecreate', function() {
+        $('#add').listview();
+    });
 
     // Trigger add name button click on keyboard return in the add name input box.
     $('#add-name').keydown(function( event ) {
@@ -457,7 +460,7 @@ function main($, _) {
 
         var randomMax = $('#special-roles-slider').val();
         // turn the initial set into the roles for the game
-        var roles = _.map(initialSet, function(isBad) {
+        roles = _.map(initialSet, function(isBad) {
             if (isBad) {
                 // possibly replace true with an exclusive bad-guy role
                 if (remainingEvilRoles.length > 0 && _.random(0, randomMax) > 0) {
@@ -536,6 +539,12 @@ function main($, _) {
     function showStartingPlayerPage() {
         $('body').pagecontainer('change', '#starting-player-page');
         $('#starting-player-name').text(_.shuffle(players)[0]);
+        var roleContent = _.chain(roles)
+                           .map(function(role) {return role.name;})
+                           .sort()
+                           .join('<br/>')
+                           .value();
+        $('#reveal-roles').html(roleContent);
     }
 
     $('#end-of-game-button').on('click', function() {
@@ -552,7 +561,7 @@ function main($, _) {
     });
 }
 
-define(["jquery", "underscore", "jquery-mobile", "jquery-ui", "jquery-ui-touch-punch"], function($, _) {
+define(["jquery", "underscore", "jquery-mobile", "jquery-ui"], function($, _) {
     var jQuery = $;
     // Manually execute touch-punch
     // See http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js
