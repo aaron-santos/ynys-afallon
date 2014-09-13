@@ -1,5 +1,6 @@
 requirejs.config({
     "baseUrl": "js/lib",
+    //"urlArgs": "bust=" + (new Date()).getTime(),
     "paths": {
       "app": "../app",
       "jquery": "http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min",
