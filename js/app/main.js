@@ -264,7 +264,7 @@ var balan = {
 
 var minion = {
     id: 'Minion', 
-    name: 'Minon of Mordred',
+    name: 'Minon',
     imgUrl: 'images-1/minion.png',
     detailFn: function(_, playerRoles, selfRole){
         var evilNames = _.map(_.filter(playerRoles, function(playerRole) {
